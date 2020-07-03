@@ -1,10 +1,9 @@
 var express = require("express");
-const visit = require("../controllers/visit");
+const user = require("../controllers/user");
 var router = express.Router();
 
-router.use("/", visit);
-
-/* GET visits listing. */
+router.use("/", user);
+/* GET users listing. */
 router.get("/", function (req, res, next) {
 	res.send("respond with a resource");
 });
