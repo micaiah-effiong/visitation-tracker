@@ -1,0 +1,41 @@
+MODELS
+user:
+	firstname
+	lastname
+	email
+	phone number
+	type:
+		student
+		staff
+		visitors
+		admin
+
+
+visit
+	purpose of visit
+	userId
+
+ROUTES
+user:
+	get one
+	get all
+	create
+	update
+	delete
+
+visit:
+	get one
+	get all
+	create
+	update
+	delete
+
+CONTROLLERS:
+	get one
+	get all
+	create:
+		associate with user
+	update
+	delete
+
+# admin cannot visit
