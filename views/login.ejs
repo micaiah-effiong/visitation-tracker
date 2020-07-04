@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Roothub - Signin</title>
+		<%- include('./partials/style-links.ejs'); -%>
+	</head>
+	<body>
+		<h3>For admins only</h3>
+		<form method="POST" action="/auth/login">
+			<div class="form-group">
+				<label for="emailInput">Email address</label>
+				<input type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" />
+			</div>
+
+			<div class="form-group">
+				<label for="passwordInput">Password</label>
+				<input type="password" class="form-control" id="passwordInput" placeholder="Enter password" name="password" />
+			<div>
+				<input type="submit" class="btn btn-primary">
+			</div>
+		</form>
+		<p>
+			<span><a href="/register" class="btn btn-link">Sign-up if its your first time</a></span>
+		</p>
+	</body>
+</html>
