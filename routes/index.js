@@ -20,8 +20,8 @@ router.get("/register", function (req, res, next) {
 
 /*authenticated routes*/
 router.use("/auth", auth);
-router.use("/users", user);
 router.use(isAuth);
+router.use("/users", user);
 router.use("/visits", visit);
 
 router.get("/dashboard", function (req, res, next) {

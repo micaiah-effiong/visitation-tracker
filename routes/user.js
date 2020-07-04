@@ -8,8 +8,7 @@ var router = express.Router();
 	res.send("respond with a resource");
 });*/
 
-router.route("/").get(isAuth, getAll);
-router.use(isAuth);
+router.route("/").get(getAll);
 router.route("/:id").get(getOne).put(update).delete(remove);
 
 module.exports = router;
