@@ -18,11 +18,55 @@ module.exports = function (sequelize, DataType) {
 					isEmail: true,
 				},
 			},
-			phone: { type: DataType.INTEGER(11).ZEROFILL },
+			gender: {
+				type: DataType.ENUM,
+				values: ["M", "F"],
+				allowNull: false,
+				set: function (value) {
+					this.setDataValue("gender", value.toUpperCase());
+				},
+				get: function () {
+					let result;
+					switch (this.getDataValue("gender")) {
+						case "M":
+							result = "Male";
+							break;
+						case "F":
+							result = "Female";
+							break;
+					}
+					return result;
+				},
+			},
+			phone: { type: DataType.STRING(11) },
 			type: {
 				type: DataType.ENUM,
 				allowNull: false,
-				values: ["student", "staff", "visitors", "admin"],
+				defaultValue: "VIS",
+				values: ["ST", "SF", "VIS", "AD"],
+				set: function (value) {
+					this.setDataValue("type", value.toUpperCase());
+				},
+				get: function () {
+					let result;
+					switch (this.getDataValue("type")) {
+						case "ST":
+							result = "Student";
+							break;
+						case "SF":
+							result = "Staff";
+							break;
+						case "VIS":
+							result = "Visitor";
+							break;
+						case "AD":
+							result = "Admin";
+							break;
+						default:
+							result = "Visitor";
+					}
+					return result;
+				},
 			},
 		},
 		{
@@ -54,6 +98,11 @@ module.exports = function (sequelize, DataType) {
 	model.prototype.toPublicJSON = function () {
 		// ommit some fields
 		return _.omit(this.toJSON(), "salt", "hash", "password");
+	};
+
+	model.getUserClass = function (key) {
+		let userClass = { ST: "Student", SF: "Staff", VIS: "Visitor", AD: "Admin" };
+		return userClass[key];
 	};
 
 	return model;
