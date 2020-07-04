@@ -3,8 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-let session = require("express-session");
-let passport = require("passport");
+const session = require("express-session");
+const passport = require("passport");
+const errorHandler = require("./middlewares/error");
 
 var indexRouter = require("./routes/index");
 var app = express();
@@ -36,6 +37,8 @@ app.use(function (req, res, next) {
 });
 
 // error handler
+app.use(errorHandler);
+
 app.use(function (err, req, res, next) {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
