@@ -47,6 +47,13 @@ db.Sequelize = Sequelize;
  * Association
  */
 db.user.hasMany(db.visit);
+db.user.hasMany(db.visit, { as: "visitors", foreignKey: "visitorId" });
 db.visit.belongsTo(db.user);
+
+db.user.hasOne(db.userAdminAccessInfo);
+db.userAdminAccessInfo.belongsTo(db.user);
+
+/*console.log(db.user.prototype);
+console.log(db.visit.prototype);*/
 
 module.exports = db;
