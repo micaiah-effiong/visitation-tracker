@@ -5,14 +5,27 @@ const user = require("./user.js");
 const visit = require("./visit.js");
 const auth = require("./auth.js");
 
-router.use("/users", user);
+/* GET home page. */
+router.get("/", function (req, res, next) {
+	res.render("index", { title: "The RootHub" });
+});
+
+router.get("/login", function (req, res, next) {
+	res.render("login");
+});
+
+router.get("/register", function (req, res, next) {
+	res.render("register");
+});
+
+/*authenticated routes*/
 router.use("/auth", auth);
+router.use("/users", user);
 router.use(isAuth);
 router.use("/visits", visit);
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-	res.render("index", { title: "Express" });
+router.get("/dashboard", function (req, res, next) {
+	res.render("dashboard");
 });
 
 module.exports = router;
