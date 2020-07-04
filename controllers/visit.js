@@ -29,13 +29,13 @@ module.exports = function (db) {
 
 		create: asyncHandler(async function (req, res, next) {
 			let { email } = req.body;
-			let user = await db.user.findOne({ where: { email } });
+			let visitor = await db.user.findOne({ where: { email } });
 			let directTo = await db.user.findOne({
 				where: { email: req.body.directedTo },
 			});
 			req.body.directedTo = directTo.name;
-			let visit = await user.createVisitor(req.body);
-			if (user.type == "visitor" && req.body.directedTo) {
+			let visit = await visitor.createVisitor(req.body);
+			if (visitor.type == "visitor" && req.body.directedTo) {
 				await directTo.addVisit(visit);
 			}
 			res.json({
