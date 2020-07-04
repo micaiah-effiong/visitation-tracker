@@ -1,4 +1,6 @@
 const asyncHandler = require("../handlers/async-handler.js");
+const { qureyHandler, pagination } = require("../handlers/index");
+
 module.exports = function (db) {
 	return {
 		getOne: asyncHandler(async (req, res, next) => {
@@ -11,19 +13,34 @@ module.exports = function (db) {
 		}),
 
 		getAll: asyncHandler(async (req, res, next) => {
-			let visits = await db.visit.findAll();
+			req.query.limit = req.query.limit || 10;
+			req.query.page = req.query.page || 0;
+			let fullQuery = qureyHandler(req.query);
+
+			let visits = await db.visit.findAll(fullQuery);
 			let data = visits.map((visit) => visit.toPublicJSON());
+
 			res.json({
 				success: true,
 				data,
+				pagination: await pagination(req.query, "visit"),
 			});
 		}),
 
 		create: asyncHandler(async function (req, res, next) {
-			let visit = await db.visit.create(req.body);
+			let { email } = req.body;
+			let user = await db.user.findOne({ where: { email } });
+			let directTo = await db.user.findOne({
+				where: { email: req.body.directedTo },
+			});
+			req.body.directedTo = directTo.name;
+			let visit = await user.createVisitor(req.body);
+			if (user.type == "visitor" && req.body.directedTo) {
+				await directTo.addVisit(visit);
+			}
 			res.json({
 				success: true,
-				data: visit.toPublicJSON(),
+				data: visit.toJSON(),
 			});
 		}),
 
@@ -40,7 +57,7 @@ module.exports = function (db) {
 			});
 		}),
 
-		delete: asyncHandler(async (req, res, next) => {
+		remove: asyncHandler(async (req, res, next) => {
 			let id = Number(req.params.id);
 			let visit = await db.visit.destroy(id);
 			res.json({
