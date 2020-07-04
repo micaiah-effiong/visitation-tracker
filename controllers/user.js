@@ -32,7 +32,7 @@ module.exports = function (db) {
 				`${req.body.firstname} ${req.body.lastname}` || `${req.body.name}`;
 			req.body.name = name;
 			let user = await db.user.create(req.body);
-			if (req.body.type === "admin") {
+			if ("Admin" === db.user.getUserClass(req.body.type)) {
 				let detail = { password: req.body.password };
 				await user.createUserAdminAccessInfo(detail);
 			}
