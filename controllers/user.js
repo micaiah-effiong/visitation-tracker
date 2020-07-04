@@ -1,4 +1,6 @@
 const asyncHandler = require("../handlers/async-handler.js");
+const { qureyHandler, pagination } = require("../handlers/index");
+
 module.exports = function (db) {
 	return {
 		getOne: asyncHandler(async (req, res, next) => {
@@ -11,19 +13,32 @@ module.exports = function (db) {
 		}),
 
 		getAll: asyncHandler(async (req, res, next) => {
-			let users = await db.user.findAll();
+			req.query.limit = req.query.limit || 10;
+			req.query.page = req.query.page || 0;
+			let fullQuery = qureyHandler(req.query);
+
+			let users = await db.user.findAll(fullQuery);
 			let data = users.map((user) => user.toPublicJSON());
+
 			res.json({
 				success: true,
 				data,
+				pagination: await pagination(req.query, "user"),
 			});
 		}),
 
 		create: asyncHandler(async function (req, res, next) {
+			let name =
+				`${req.body.firstname} ${req.body.lastname}` || `${req.body.name}`;
+			req.body.name = name;
 			let user = await db.user.create(req.body);
+			if (req.body.type === "admin") {
+				let detail = { password: req.body.password };
+				await user.createUserAdminAccessInfo(detail);
+			}
 			res.json({
 				success: true,
-				data: user.toPublicJSON(),
+				data: user.toJSON(),
 			});
 		}),
 
@@ -40,7 +55,7 @@ module.exports = function (db) {
 			});
 		}),
 
-		delete: asyncHandler(async (req, res, next) => {
+		remove: asyncHandler(async (req, res, next) => {
 			let id = Number(req.params.id);
 			let user = await db.user.destroy(id);
 			res.json({
