@@ -29,5 +29,10 @@ module.exports = function (sequelize, DataType) {
 		},
 	});
 
+	model.getUserClass = function (key) {
+		let userClass = { ST: "Student", SF: "Staff", AD: "Admin" };
+		return userClass[key];
+	};
+
 	return model;
 };

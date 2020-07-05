@@ -72,10 +72,5 @@ module.exports = function (sequelize, DataType) {
 		return _.omit(this.toJSON(), "salt", "hash", "password");
 	};
 
-	model.getUserClass = function (key) {
-		let userClass = { ST: "Student", SF: "Staff", VIS: "Visitor", AD: "Admin" };
-		return userClass[key];
-	};
-
 	return model;
 };
