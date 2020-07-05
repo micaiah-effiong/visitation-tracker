@@ -15,6 +15,7 @@ module.exports = (db) => {
         }
         res.json({
           success: true,
+          location: "/dashboard",
           data: user.toPublicJSON(),
         });
       });
