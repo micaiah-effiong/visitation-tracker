@@ -14,7 +14,7 @@ module.exports = function (db) {
 
 		getAll: asyncHandler(async (req, res, next) => {
 			req.query.limit = req.query.limit || 10;
-			req.query.page = req.query.page || 0;
+			req.query.page = req.query.page || 1;
 			let fullQuery = qureyHandler(req.query);
 
 			let users = await db.user.findAll(fullQuery);
@@ -28,8 +28,7 @@ module.exports = function (db) {
 		}),
 
 		create: asyncHandler(async function (req, res, next) {
-			let name =
-				`${req.body.firstname} ${req.body.lastname}` || `${req.body.name}`;
+			let name = req.body.name || `${req.body.firstname} ${req.body.lastname}`;
 			req.body.name = name;
 			let user = await db.user.create(req.body);
 			if ("Admin" === db.user.getUserClass(req.body.type)) {
@@ -38,6 +37,7 @@ module.exports = function (db) {
 			}
 			res.json({
 				success: true,
+				location: "/login",
 				data: user.toJSON(),
 			});
 		}),
