@@ -30,11 +30,20 @@ module.exports = function (db) {
 		create: asyncHandler(async function (req, res, next) {
 			let name = req.body.name || `${req.body.firstname} ${req.body.lastname}`;
 			req.body.name = name;
+
 			let user = await db.user.create(req.body);
-			if ("Admin" === db.user.getUserClass(req.body.type)) {
+			if ("VIS" === req.body.type.toUpperCase()) {
+				await user.createVisitor(req.body);
+			} else {
+				await user.createWorker(req.body);
+			}
+
+			if ("Admin" === db.worker.getUserClass(req.body.type)) {
 				let detail = { password: req.body.password };
 				await user.createUserAdminAccessInfo(detail);
 			}
+
+			user = await user.reload();
 			res.json({
 				success: true,
 				location: "/login",
