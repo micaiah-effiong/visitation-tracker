@@ -23,6 +23,7 @@ module.exports = function (sequelize, DataType) {
 				values: ["M", "F"],
 				allowNull: false,
 				set: function (value) {
+					console.log(value, "set gender");
 					this.setDataValue("gender", value.toUpperCase());
 				},
 				get: function () {
@@ -39,35 +40,6 @@ module.exports = function (sequelize, DataType) {
 				},
 			},
 			phone: { type: DataType.STRING(11) },
-			type: {
-				type: DataType.ENUM,
-				allowNull: false,
-				defaultValue: "VIS",
-				values: ["ST", "SF", "VIS", "AD"],
-				set: function (value) {
-					this.setDataValue("type", value.toUpperCase());
-				},
-				get: function () {
-					let result;
-					switch (this.getDataValue("type")) {
-						case "ST":
-							result = "Student";
-							break;
-						case "SF":
-							result = "Staff";
-							break;
-						case "VIS":
-							result = "Visitor";
-							break;
-						case "AD":
-							result = "Admin";
-							break;
-						default:
-							result = "Visitor";
-					}
-					return result;
-				},
-			},
 		},
 		{
 			hooks: {

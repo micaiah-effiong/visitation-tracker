@@ -46,14 +46,20 @@ db.Sequelize = Sequelize;
 /*
  * Association
  */
-db.user.hasMany(db.visit);
-db.user.hasMany(db.visit, { as: "visitors", foreignKey: "visitorId" });
-db.visit.belongsTo(db.user);
-
+db.user.hasOne(db.worker);
+db.user.hasOne(db.visitor);
 db.user.hasOne(db.userAdminAccessInfo);
+
+db.worker.belongsTo(db.user);
+db.visitor.belongsTo(db.user);
 db.userAdminAccessInfo.belongsTo(db.user);
 
-/*console.log(db.user.prototype);
-console.log(db.visit.prototype);*/
+db.visit.belongsTo(db.worker);
+db.visit.belongsTo(db.visitor);
+
+db.worker.hasMany(db.visit);
+db.visitor.hasMany(db.visit);
+
+// console.log(db.userVisit.prototype);
 
 module.exports = db;
