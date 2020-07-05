@@ -17,8 +17,8 @@ module.exports = function (db) {
 			req.query.page = req.query.page || 1;
 			let fullQuery = qureyHandler(req.query);
 			fullQuery.include = [
-				{ model: db.user, as: "users" },
-				{ model: db.user, as: "visitors" },
+				{ model: db.worker, include: db.user },
+				{ model: db.visitor, include: db.user },
 			];
 
 			let visits = await db.visit.findAll(fullQuery);
@@ -33,25 +33,28 @@ module.exports = function (db) {
 
 		create: asyncHandler(async function (req, res, next) {
 			let { email } = req.body;
-			let visitor = await db.user.findOne({ where: { email } });
-			let directTo = await db.user.findOne({
-				where: { email: req.body.directedTo },
-			});
-			req.body.directedTo = directTo.name;
-			if (!(visitor.type == db.user.getUserClass("VIS"))) {
-				req.body.directedTo = "";
+			let user = await db.user.findOne({ where: { email } });
+
+			let person;
+			let visit; /*= await user.getVisitor() || await user.getWorker();*/
+			if (await user.getVisitor()) {
+				person = await user.getVisitor();
+				visit = await person.createVisit(req.body);
+				let directedTo = await db.user.findOne({
+					where: { email: req.body.directedTo },
+				});
+
+				let worker = await directedTo.getWorker();
+				worker.addVisit(visit);
+			} else {
+				person = await user.getWorker();
+				visit = await person.createVisit(req.body);
 			}
 
-			let visit = await visitor.createVisit(req.body);
-			if (visitor.type == db.user.getUserClass("VIS") && req.body.directedTo) {
-				await directTo.addVisit(visit);
-			}
-
-			let newVisit = await visit.reload();
-
+			await visit.reload();
 			res.json({
 				success: true,
-				data: newVisit.toJSON(),
+				data: visit.toJSON(),
 			});
 		}),
 
