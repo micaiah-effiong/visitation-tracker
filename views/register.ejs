@@ -1,111 +1,111 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Roothub - Signup</title>
-		<%- include('./partials/style-links.ejs'); -%>
-	</head>
-	<body>
-		<h3>For admins only</h3>
-		<form method="POST" action="/auth/register" name="register">
-			<div class="form-group">
-				<label for="nameInput">Name</label>
-				<input
-					type="text"
-					class="form-control"
-					id="nameInput"
-					placeholder="Enter your name"
-					name="name"
-					required
-				/>
-			</div>
-			<div class="form-group">
-				<label for="emailInput">Email address</label>
-				<input
-					type="email"
-					class="form-control"
-					id="emailInput"
-					placeholder="Enter email"
-					name="email"
-					required
-				/>
-			</div>
-			<div class="form-group">
-				<label for="telInput">Phone Number</label>
-				<input
-					type="tel"
-					class="form-control"
-					id="telInput"
-					placeholder="Enter Your phone number"
-					name="phone"
-					required
-				/>
-			</div>
-			<div class="form-group">
-				<label for="genderInput">Gender</label>
-				<select class="form-control" id="genderInput" name="gender">
-					<option value="F">Female</option>
-					<option value="M" selected>Male</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="userTypeInput">User class</label>
-				<select class="form-control" id="userTypeInput" name="type" required>
-					<option value="AD">Admin</option>
-					<option value="VIS" selected>Visitor</option>
-					<option value="ST">Student</option>
-					<option value="SF">Staff</option>
-				</select>
-			</div>
+  <head>
+    <title>Roothub - Signup</title>
+    <%- include('./partials/header-links.ejs'); -%>
+  </head>
+  <body>
+    <h3>For admins only</h3>
+    <form method="POST" action="/auth/register" name="register">
+      <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nameInput"
+          placeholder="Enter your name"
+          name="name"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="emailInput">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="emailInput"
+          placeholder="Enter email"
+          name="email"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="telInput">Phone Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="telInput"
+          placeholder="Enter Your phone number"
+          name="phone"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="genderInput">Gender</label>
+        <select class="form-control" id="genderInput" name="gender">
+          <option value="F">Female</option>
+          <option value="M" selected>Male</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="userTypeInput">User class</label>
+        <select class="form-control" id="userTypeInput" name="type" required>
+          <option value="AD">Admin</option>
+          <option value="VIS" selected>Visitor</option>
+          <option value="ST">Student</option>
+          <option value="SF">Staff</option>
+        </select>
+      </div>
 
-			<div class="form-group">
-				<label for="passwordInput">Password</label>
-				<input
-					type="password"
-					class="form-control"
-					id="passwordInput"
-					placeholder="Enter password"
-					name="password"
-					required
-				/>
-			</div>
-			<div class="form-group">
-				<input type="submit" class="btn btn-primary" />
-			</div>
-		</form>
-		<p>
-			<span
-				><a href="/login " class="btn btn-link"
-					>Sign-in if are an Admin</a
-				></span
-			>
-		</p>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="passwordInput"
+          placeholder="Enter password"
+          name="password"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-primary" />
+      </div>
+    </form>
+    <p>
+      <span
+        ><a href="/login " class="btn btn-link"
+          >Sign-in if are an Admin</a
+        ></span
+      >
+    </p>
 
-		<script type="text/javascript">
-			document.register.onsubmit = (evt) => {
-				evt.preventDefault();
-				let elts = [...evt.target.elements];
-				let reqBody = {};
-				elts.forEach((elt) => {
-					if (elt.name) {
-						reqBody[elt.name] = elt.value;
-					}
-				});
-				reqBody = JSON.stringify(reqBody);
-				fetch("/auth/register", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: reqBody,
-				})
-					.then((res) => res.json())
-					.then((res) => {
-						if (res.success) {
-							location.assign(res.location);
-						}
-					})
-					.catch(console.log);
-			};
-		</script>
-	</body>
+    <script type="text/javascript">
+      document.register.onsubmit = (evt) => {
+        evt.preventDefault();
+        let elts = [...evt.target.elements];
+        let reqBody = {};
+        elts.forEach((elt) => {
+          if (elt.name) {
+            reqBody[elt.name] = elt.value;
+          }
+        });
+        reqBody = JSON.stringify(reqBody);
+        fetch("/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: reqBody,
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.success) {
+              location.assign(res.location);
+            }
+          })
+          .catch(console.log);
+      };
+    </script>
+  </body>
 </html>
