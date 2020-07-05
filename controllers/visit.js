@@ -14,11 +14,15 @@ module.exports = function (db) {
 
 		getAll: asyncHandler(async (req, res, next) => {
 			req.query.limit = req.query.limit || 10;
-			req.query.page = req.query.page || 0;
+			req.query.page = req.query.page || 1;
 			let fullQuery = qureyHandler(req.query);
+			fullQuery.include = [
+				{ model: db.user, as: "users" },
+				{ model: db.user, as: "visitors" },
+			];
 
 			let visits = await db.visit.findAll(fullQuery);
-			let data = visits.map((visit) => visit.toPublicJSON());
+			let data = visits.map((visit) => visit.toJSON());
 
 			res.json({
 				success: true,
@@ -34,13 +38,20 @@ module.exports = function (db) {
 				where: { email: req.body.directedTo },
 			});
 			req.body.directedTo = directTo.name;
-			let visit = await visitor.createVisitor(req.body);
-			if (visitor.type == "visitor" && req.body.directedTo) {
+			if (!(visitor.type == db.user.getUserClass("VIS"))) {
+				req.body.directedTo = "";
+			}
+
+			let visit = await visitor.createVisit(req.body);
+			if (visitor.type == db.user.getUserClass("VIS") && req.body.directedTo) {
 				await directTo.addVisit(visit);
 			}
+
+			let newVisit = await visit.reload();
+
 			res.json({
 				success: true,
-				data: visit.toJSON(),
+				data: newVisit.toJSON(),
 			});
 		}),
 
