@@ -8,7 +8,7 @@ module.exports = function (db) {
       let visit = await db.visit.findByPk(id);
       res.json({
         success: true,
-        data: visit.toPublicJSON(),
+        data: visit.toJSON(),
       });
     }),
 

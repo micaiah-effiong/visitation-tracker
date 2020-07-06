@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- 12.16.3
+deploy:
+  provider: heroku
+  api_key:
+    secure: wnmifAj3qJU6WAk8kLqoSTCjrkjs2auTEhmpYEe137MSLtdVBbh6tcBpxhS6ePQDVk4iCi68rtPthW2IJDSFeiXx4p+7DP9lsmC6qd+gAoeb3rRyxRjqxrRNRzHydi9Er/KROYVLxQxB8BzBS6SMsUecFnhQVEjkB+5ZNhbJNCgUj0jnvvSRNYufnsoR+EVdyUHAm9ANrnXfIrrbKkkn9KmNPzs31hZAhp+wA2oj7uWfcwzr1sjVjmW2EvcijD+NQZD1Z+VIcao3GEwOBedeaAJ77lEx0KaHbDQb1T6yyaBL9rzgo9GgUCwIaBTgOsxzxOhePomD5LPvzSaJOzaXyZcxolkUxPPV9DHomHSZ1QeM1suiEI/lK1GTbioX2/i+INeRxXubLWPtN0fM0wZehBYC+gz7WNze9DZH/xdvjMNCmUJQ7SD483D9ThdkTcPkICrqxNNrGag0+U3t0PqwuQUmcEKGEa/bKS8Bch1MITyRRmQQON/C9aov6PQ2rXMkX6irFDcHk6/9GNNe+acbuv1JNdWniis33LFyys/uQHIeQCfMdDObRA/TwU1ZKHElI1RbCOUj8fqg/9E4+SdFzx4jgsocPXVYfDcRQVKG2Pqylful25TzVeZTJhez0Aj0p406bcKpnjBPmiO5rXAGrrpi3JFg75f3o7N/DvOHzWM=
+  app: evening-sands-23391
+  on:
+    repo: micaiah-effiong/visitation-tracker
+  skip_cleanup: 'true'

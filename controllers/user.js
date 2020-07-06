@@ -8,7 +8,7 @@ module.exports = function (db) {
       let user = await db.user.findByPk(id);
       res.json({
         success: true,
-        data: user.toPublicJSON(),
+        data: user.toJSON(),
       });
     }),
 
@@ -18,7 +18,7 @@ module.exports = function (db) {
       let fullQuery = qureyHandler(req.query);
 
       let users = await db.user.findAll(fullQuery);
-      let data = users.map((user) => user.toPublicJSON());
+      let data = users.map((user) => user.toJSON());
 
       res.json({
         success: true,
