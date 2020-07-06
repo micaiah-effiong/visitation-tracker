@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 12.16.3
+  - 12.16.3
 deploy:
   provider: heroku
   api_key:
@@ -8,7 +8,9 @@ deploy:
   app: evening-sands-23391
   on:
     repo: micaiah-effiong/visitation-tracker
-  skip_cleanup: 'true'
+  skip_cleanup: "true"
 env:
   global:
     secure: WqSs2XJ1fCcS5bPYBEaLH8kZ0fOjvk5i8o5hngi99PB4OUTajjaBDeKy3GRol3a/Qrso5GAcruoKEu0EimlL5RKa1vM1c9OdxnP/nA2N+RYsQnVgyFZT5cM8vur6WZ7webhUnizjJMAHcnfXhBAOEVmqNlnLMcaPZvZnBZZURIIP/tn5Th41PgVJcbYBfKZ0/nCsHp8NgSRz4lOyfYbLh4WY8wcefFJz0sCWwvLcBmfk2BuvGj1ID4/DY1+xQibDmEkivbhEolsnw1vcW6STaJoHKsFivZwo04HqJmHHeWBsNUZY4f2BEua8Ywg9Ah6FwiLsas1NrLa/W7Q2AlmIPk4IPkDUX5Y4BQ9HNu/vJ9tNqxJ30Klb1O60X8ay7CwdsYKAATluj/BfHlmrTpG3Vmis3ieYkY9gyga0fMR0fKzD/4nnwlwjMLPkWVT5yF6s5tO4BmoUQwbpbFVImZ5SF2DjW/nQpIEsbFoy5ko1cqsbmEbjyOFgplYltAk9/msJQlNlMCLemfrJmFdqY8XQmi2i7ArJadaJcZPVtvZTCxR/cJ0jmdTIlkLqxxwLChkJU4jGdrRTI5dWvcTV9C5DXu7ipB6x+FdCEZNmzQM153DYI4D+HBKHlx68aPYdICKXvouxbtDSwiPMGCPvOgppA0unN+9VHq1T+D02KDKyNFg=
+services:
+  - redis-server
