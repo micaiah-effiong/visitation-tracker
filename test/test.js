@@ -160,5 +160,4 @@ describe("test", () => {
 after((done) => {
   db.sequelize.close();
   server.close(done);
-  process.exit();
 });
