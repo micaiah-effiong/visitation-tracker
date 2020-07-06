@@ -1,11 +1,14 @@
-process.env.NODE_ENV = "test";
-const { expect } = require("chai");
-const app = require("../app");
-const db = require("../models/index");
 const { post } = require("request");
 const { get } = require("request");
-let server;
+const bcrypt = require("bcrypt");
+const { expect } = require("chai");
 
+process.env.NODE_ENV = "test";
+process.env.SESSION_SECRET = bcrypt.genSaltSync(10);
+const app = require("../app");
+const db = require("../models/index");
+
+let server;
 before((done) => {
   db.sequelize
     .sync({ force: true })
