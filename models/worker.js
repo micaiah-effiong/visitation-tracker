@@ -4,9 +4,8 @@ module.exports = function (sequelize, DataType) {
       type: DataType.ENUM,
       allowNull: false,
       defaultValue: "VIS",
-      values: ["ST", "SF", "AD"],
+      values: ["ST", "SF", "AD", "RS"],
       set: function (value) {
-        console.log(value, "set gender");
         this.setDataValue("type", value.toUpperCase());
       },
       get: function () {
@@ -21,8 +20,11 @@ module.exports = function (sequelize, DataType) {
           case "AD":
             result = "Admin";
             break;
+          case "RS":
+            result = "Residence";
+            break;
           default:
-            result = "Visitor";
+            result = "Staff";
         }
         return result;
       },
