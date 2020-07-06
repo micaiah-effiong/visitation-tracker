@@ -4,19 +4,13 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
-const redis = require("redis");
-const redisStore = require("connect-redis")(session);
-const client = redis.createClient();
+var FileStore = require("session-file-store")(session);
 const passport = require("passport");
 const errorHandler = require("./middlewares/error");
+var fileStoreOptions = {};
 let sess = {
   secret: `${process.env.SESSION_SECRET}`,
-  store: new redisStore({
-    host: "localhost",
-    port: 6379,
-    client: client,
-    ttl: 260,
-  }),
+  store: new FileStore(fileStoreOptions),
   resave: false,
   saveUninitialized: false,
 };
