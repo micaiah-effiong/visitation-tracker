@@ -23,7 +23,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(async function (id, done) {
   let user = await db.user.findByPk(id);
-  if (!user) return done(err, null);
+  if (!user) return done(null, false);
   done(null, user);
 });
 

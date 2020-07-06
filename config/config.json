@@ -5,7 +5,8 @@
     "database": "database_development",
     "storage": "./data/database_development.sqlite",
     "host": null,
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "logging": false
   },
   "test": {
     "username": null,

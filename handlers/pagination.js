@@ -14,7 +14,7 @@ const qureyHandler = require("./advanceQuery");
  * },
  */
 
-module.exports = async function (query) {
+module.exports = async function (query, resource) {
   /*
    * setup response pagination
    */
@@ -30,19 +30,25 @@ module.exports = async function (query) {
    * which is based on the users request
    */
   ["page", "limit"].forEach((val) => delete query[val]);
-  let total = await db.review
+  let total = await db[resource]
     .findAll(qureyHandler(query))
     .then((result) => result.length);
+  pagination.total = total;
+  pagination.limit = limit;
 
   /*
    * create pagination data for next and previous pages
    */
   if (offset > 0) {
-    pagination.prev = { page: page - 1, limit };
+    pagination.prev = { page: page - 1 };
+  }
+
+  if (!page) {
+    page = 1;
   }
 
   if (limit * page < total) {
-    pagination.next = { page: page + 1, limit };
+    pagination.next = { page: page + 1 };
   }
 
   return pagination;

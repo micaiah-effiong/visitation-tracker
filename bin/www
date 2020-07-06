@@ -6,6 +6,7 @@
 
 require('dotenv').config({path: "../.env"});
 var app = require('../app');
+let db = require('../models/index.js');
 var debug = require('debug')('visitation:server');
 var http = require('http');
 
@@ -26,9 +27,15 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+db.sequelize
+  .sync({force: false})
+  .then(()=>{
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  }).catch(err=>{
+    console.log(err);
+  });
 
 /**
  * Normalize a port into a number, string, or false.

@@ -13,8 +13,10 @@ module.exports = function queryToSequelize(query) {
       q2[val] = queryToSequelize(query[val]);
       return;
     }
-    if (!!val.match(/\b(gt|gte|lt|lte|eq|ne|like)\b/g)) {
+    if (!!val.match(/\b(gt|gte|lt|lte|eq|ne)\b/g)) {
       q2[Op[val]] = query[val];
+    } else if (!!val.match(/\b(like)\b/g)) {
+      q2[Op[val]] = `%${query[val]}%`;
     } else {
       q2[val] = query[val];
     }

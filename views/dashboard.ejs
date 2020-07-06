@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Roothub - Signup</title>
+		<%- include('./partials/header-links.ejs'); -%>
+	</head>
+	<body>
+		<h3>Welcome</h3>
+		<p>
+			<span>For admins only</span>
+		</p>
+
+		<div class="container">
+			<div class="wrapper">
+				<form method="GET" action="/users?select=id,name,email" name="search">
+					<div class="form-group">
+						<label for="telInput">Name</label>
+						<input
+							type="search"
+							class="form-control"
+							id="searchInput"
+							placeholder="search by name"
+							name="name[like]"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<ul id="resultList" onclick="addToField(event, 'emailInput')"></ul>
+					</div>
+					<div class="form-group">
+						<input type="submit" hidden />
+					</div>
+				</form>
+			</div>
+			<form method="POST" action="/visits" name="visit">
+				<div class="form-group">
+					<label for="emailInput">User Email</label>
+					<input
+						type="email"
+						class="form-control"
+						id="emailInput"
+						placeholder="Enter User email"
+						name="email"
+						required
+					/>
+				</div>
+				<div class="form-group">
+					<label for="directedTo"
+						>Email of person to meet - only for visitors</label
+					>
+					<input
+						type="email"
+						class="form-control"
+						id="directedTo"
+						placeholder="Enter person to meet email"
+						name="directedTo"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="textInput">Purpose of meeting - optional</label>
+					<textarea
+						name="purpose"
+						placeholder="Enter text here"
+						id="textInput"
+					></textarea>
+				</div>
+				<div class="form-grou">
+					<input type="submit" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+
+		<script type="text/javascript" src="script/main.js"></script>
+	</body>
+</html>

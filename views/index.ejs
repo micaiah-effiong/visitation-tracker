@@ -2,10 +2,14 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
+    <%- include('./partials/header-links.ejs'); -%>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <p>
+      <span><a href="/login" class="btn">SignIn</a></span>
+      <span><a href="/register" class="btn">SignUp</a></span>
+    </p>
   </body>
 </html>

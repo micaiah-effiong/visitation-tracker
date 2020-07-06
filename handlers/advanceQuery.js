@@ -38,7 +38,7 @@ module.exports = (reqQuery) => {
   let page = {};
   if (reqQuery.page || reqQuery.limit) {
     page.limit = reqQuery.limit;
-    page.offset = reqQuery.page;
+    page.offset = reqQuery.page || 0;
     page.offset = (page.offset - 1) * page.limit;
   }
 

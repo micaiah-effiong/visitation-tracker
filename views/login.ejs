@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Roothub - Signin</title>
+		<%- include('./partials/header-links.ejs'); -%>
+	</head>
+	<body>
+		<h3>For admins only</h3>
+		<form method="POST" action="/auth/login" name="login">
+			<div class="form-group">
+				<label for="emailInput">Email address</label>
+				<input type="email" class="form-control" id="emailInput" placeholder="Enter email" name="email" />
+			</div>
+
+			<div class="form-group">
+				<label for="passwordInput">Password</label>
+				<input type="password" class="form-control" id="passwordInput" placeholder="Enter password" name="password" />
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary">
+			</div>
+		</form>
+		<p>
+			<span><a href="/register" class="btn btn-link">Sign-up if its your first time</a></span>
+		</p>
+		<script type="text/javascript">
+			document.login.onsubmit = (evt)=>{
+				evt.preventDefault();
+				let elts = [...evt.target.elements];
+				let reqBody = {}
+				elts.forEach(elt=>{
+					if(elt.name){
+						reqBody[elt.name] = elt.value;
+					}
+				})
+				reqBody = JSON.stringify(reqBody);
+				fetch('/auth/login', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: reqBody
+				})
+					.then(res=>res.json())
+					.then(res=>{
+						if (res.success) {
+							location.assign(res.location);
+						}
+					})
+					.catch(console.log)
+			}
+		</script>
+	</body>
+</html>
