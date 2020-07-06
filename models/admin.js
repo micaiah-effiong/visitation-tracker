@@ -23,7 +23,6 @@ module.exports = function (sequelize, DataType) {
 		{
 			hooks: {
 				beforeCreate: async function (instance, options) {
-					console.log(instance);
 					await hashPassword(instance, options);
 				},
 			},

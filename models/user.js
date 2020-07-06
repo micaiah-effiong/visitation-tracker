@@ -23,7 +23,6 @@ module.exports = function (sequelize, DataType) {
         values: ["M", "F"],
         allowNull: false,
         set: function (value) {
-          console.log(value, "set gender");
           this.setDataValue("gender", value.toUpperCase());
         },
         get: function () {
@@ -65,11 +64,6 @@ module.exports = function (sequelize, DataType) {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  model.prototype.toPublicJSON = function () {
-    // ommit some fields
-    return _.omit(this.toJSON(), "salt", "hash", "password");
   };
 
   return model;
