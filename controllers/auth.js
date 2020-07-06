@@ -11,12 +11,12 @@ module.exports = (db) => {
       let { user } = req;
       req.login(user, function (err) {
         if (err) {
-          return next(errorResponse("Incorrect email or password"));
+          return next(errorResponse("Incorrect email or password", 400));
         }
         res.json({
           success: true,
           location: "/dashboard",
-          data: user.toPublicJSON(),
+          data: user.toJSON(),
         });
       });
     }),
