@@ -4,16 +4,26 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
+const redis = require("redis");
+const redisStore = require("connect-redis")(session);
+const client = redis.createClient();
 const passport = require("passport");
 const errorHandler = require("./middlewares/error");
 let sess = {
   secret: `${process.env.SESSION_SECRET}`,
+  store: new redisStore({
+    host: "localhost",
+    port: 6379,
+    client: client,
+    ttl: 260,
+  }),
   resave: false,
   saveUninitialized: false,
 };
 
 var indexRouter = require("./routes/index");
 var app = express();
+console.log(app);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
