@@ -3,7 +3,6 @@ module.exports = function (sequelize, DataType) {
     type: {
       type: DataType.ENUM,
       allowNull: false,
-      defaultValue: "VIS",
       values: ["ST", "SF", "AD", "RS"],
       set: function (value) {
         this.setDataValue("type", value.toUpperCase());
