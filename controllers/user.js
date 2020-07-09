@@ -1,5 +1,9 @@
 const asyncHandler = require("../handlers/async-handler.js");
-const { qureyHandler, pagination } = require("../handlers/index");
+const {
+  qureyHandler,
+  pagination,
+  errorResponse,
+} = require("../handlers/index");
 
 module.exports = function (db) {
   return {
@@ -30,6 +34,15 @@ module.exports = function (db) {
     create: asyncHandler(async function (req, res, next) {
       let name = req.body.name || `${req.body.firstname} ${req.body.lastname}`;
       req.body.name = name;
+
+      if (
+        !(
+          db.worker.getUserClass(req.body.type) ||
+          "VIS" === req.body.type.toUpperCase()
+        )
+      ) {
+        next("Complete all the fields before registring", 400);
+      }
 
       let user = await db.user.create(req.body);
       if ("VIS" === req.body.type.toUpperCase()) {
