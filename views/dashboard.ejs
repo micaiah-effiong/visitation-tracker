@@ -61,52 +61,52 @@
             <input type="submit" hidden />
           </div>
         </form>
-        <div class="row">
-          <form
-            method="POST"
-            action="/visits"
-            name="visit"
-            v-on:submit.prevent="submitVisit"
-          >
-            <div class="form-group">
-              <label for="emailInput">User Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="emailInput"
-                placeholder="Enter User email"
-                name="email"
-                v-model="visitForm.email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="directedTo"
-                >Email of person to meet - only for visitors</label
-              >
-              <input
-                type="email"
-                class="form-control"
-                id="directedTo"
-                placeholder="Enter person to meet email"
-                name="directedTo"
-                v-model="visitForm.directedTo"
-              />
-            </div>
-            <div class="form-group">
-              <label for="textInput">Purpose of meeting - optional</label>
-              <textarea
-                name="purpose"
-                placeholder="Enter text here"
-                id="textInput"
-                v-model="visitForm.purpose"
-              ></textarea>
-            </div>
-            <div class="form-grou">
-              <input type="submit" class="btn btn-primary" />
-            </div>
-          </form>
-        </div>
+        <form
+          method="POST"
+          action="/visits"
+          name="visit"
+          class="row"
+          v-on:submit.prevent="submitVisit"
+        >
+          <div class="form-group col-6">
+            <label for="emailInput">User Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="emailInput"
+              placeholder="Enter User email"
+              name="email"
+              v-model="visitForm.email"
+              required
+            />
+          </div>
+          <div class="form-group col-6">
+            <label for="directedTo"
+              >Email of person to meet - only for visitors</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="directedTo"
+              placeholder="Enter person to meet email"
+              name="directedTo"
+              v-model="visitForm.directedTo"
+            />
+          </div>
+          <div class="form-group col-6">
+            <label for="textInput">Purpose of meeting - optional</label>
+            <textarea
+              name="purpose"
+              placeholder="Enter text here"
+              id="textInput"
+              v-model="visitForm.purpose"
+              class="form-control"
+            ></textarea>
+          </div>
+          <div class="form-group col-12">
+            <input type="submit" class="btn btn-primary" />
+          </div>
+        </form>
         <div>{{result}}</div>
       </div>
     </div>
