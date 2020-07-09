@@ -1,10 +1,10 @@
 new Vue({
   el: "#app",
   data: {
-    search: "",
-    search2: "",
-    searchResult: [],
-    searchResult2: [],
+    searchResult: {
+      one: [],
+      two: [],
+    },
     visitForm: {
       directedTo: "",
       email: "",
@@ -12,17 +12,21 @@ new Vue({
     },
     result: "",
   },
-  // created: {},
+  created: function () {},
   methods: {
-    searchInput: function (searchBox) {
-      console.log(searchBox);
-
-      fetch("/users?select=id,name,email&name[like]=" + this[searchBox])
+    searchInput: function (evt, searchBox) {
+      let { value: val } = evt.target;
+      if (!val) {
+        return searchBox === "search"
+          ? (this.searchResult.one = [])
+          : (this.searchResult.two = []);
+      }
+      fetch("/users?select=id,name,email&name[like]=" + val)
         .then((res) => res.json())
         .then((res) => {
           searchBox === "search"
-            ? (this.searchResult = res.data)
-            : (this.searchResult2 = res.data);
+            ? (this.searchResult.one = res.data)
+            : (this.searchResult.two = res.data);
         })
         .catch(console.log);
     },
@@ -36,9 +40,7 @@ new Vue({
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res.data);
           this.result = "done";
-          return res;
         })
         .catch((err) => {
           this.return = "An error occurred";

@@ -9,113 +9,106 @@
     <p>
       <span>For admins only</span>
     </p>
-    <div class="container">
-      <div class="row">
-        <div class="col-6">Great</div>
-        <div class="col-6">Great</div>
-      </div>
-    </div>
-
-    <div class="container" id="app">
-      <form
-        method="GET"
-        action="/users?select=id,name,email"
-        name="search"
-        class="row"
-      >
-        <div class="form-group col-6">
-          <label for="telInput">Search Visitor</label>
-          <input
-            type="search"
-            class="form-control"
-            id="searchInput"
-            placeholder="search by name"
-            name="name[like]"
-            v-model="search"
-            v-on:input="searchInput('search')"
-            required
-          />
-          <div class="form-group col-6">
-            <ul v-for="det in searchResult" id="resultList">
-              <li v-on:click="setInput((det.email))">
-                {{det.name}}
-                <h6>{{det.email}}</h6>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="form-group col-6">
-          <label for="telInput">Search person visited - Optional</label>
-          <input
-            type="search"
-            class="form-control"
-            id="searchInput2"
-            placeholder="search by name"
-            name="name[like]"
-            v-model="search2"
-            v-on:input="searchInput('search2')"
-            required
-          />
-          <div class="form-group">
-            <ul v-for="det in searchResult2" id="resultList">
-              <li v-on:click="setInput(false, det.email)">
-                {{det.name}}
-                <h6>{{det.email}}</h6>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="form-group">
-          <input type="submit" hidden />
-        </div>
-      </form>
-      <div class="row">
+    <div id="app">
+      <div class="container">
         <form
-          method="POST"
-          action="/visits"
-          name="visit"
-          v-on:submit.prevent="submitVisit"
+          method="GET"
+          action="/users?select=id,name,email"
+          name="search"
+          class="row"
         >
-          <div class="form-group">
-            <label for="emailInput">User Email</label>
+          <div class="form-group col-6">
+            <label for="telInput">Search Visitor</label>
             <input
-              type="email"
+              type="search"
               class="form-control"
-              id="emailInput"
-              placeholder="Enter User email"
-              name="email"
-              v-model="visitForm.email"
+              id="searchInput"
+              placeholder="search by name"
+              name="name[like]"
+              v-on:input="searchInput($event, 'search')"
               required
             />
+            <div class="form-group col-6">
+              <ul v-for="det in searchResult.one" id="resultList">
+                <li v-on:click="setInput((det.email))">
+                  {{det.name}}
+                  <h6>{{det.email}}</h6>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="directedTo"
-              >Email of person to meet - only for visitors</label
-            >
+          <div class="form-group col-6">
+            <label for="telInput">Search person visited - Optional</label>
             <input
-              type="email"
+              type="search"
               class="form-control"
-              id="directedTo"
-              placeholder="Enter person to meet email"
-              name="directedTo"
-              v-model="visitForm.directedTo"
+              id="searchInput2"
+              placeholder="search by name"
+              name="name[like]"
+              v-on:input="searchInput($event, 'search2')"
+              required
             />
+            <div class="form-group">
+              <ul v-for="det in searchResult.two" id="resultList">
+                <li v-on:click="setInput(false, det.email)">
+                  {{det.name}}
+                  <h6>{{det.email}}</h6>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="form-group">
-            <label for="textInput">Purpose of meeting - optional</label>
-            <textarea
-              name="purpose"
-              placeholder="Enter text here"
-              id="textInput"
-              v-model="visitForm.purpose"
-            ></textarea>
-          </div>
-          <div class="form-grou">
-            <input type="submit" class="btn btn-primary" />
+            <input type="submit" hidden />
           </div>
         </form>
+        <div class="row">
+          <form
+            method="POST"
+            action="/visits"
+            name="visit"
+            v-on:submit.prevent="submitVisit"
+          >
+            <div class="form-group">
+              <label for="emailInput">User Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailInput"
+                placeholder="Enter User email"
+                name="email"
+                v-model="visitForm.email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="directedTo"
+                >Email of person to meet - only for visitors</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="directedTo"
+                placeholder="Enter person to meet email"
+                name="directedTo"
+                v-model="visitForm.directedTo"
+              />
+            </div>
+            <div class="form-group">
+              <label for="textInput">Purpose of meeting - optional</label>
+              <textarea
+                name="purpose"
+                placeholder="Enter text here"
+                id="textInput"
+                v-model="visitForm.purpose"
+              ></textarea>
+            </div>
+            <div class="form-grou">
+              <input type="submit" class="btn btn-primary" />
+            </div>
+          </form>
+        </div>
+        <div>{{result}}</div>
       </div>
-      <div>{{result}}</div>
     </div>
     <script defer type="text/javascript" src="script/vue.js"></script>
     <script defer type="text/javascript" src="script/moment.min.js"></script>
