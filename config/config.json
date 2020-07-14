@@ -19,6 +19,7 @@
   "production": {
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
-    "ssl": true
+    "ssl": true,
+    "logging": false
   }
 }
